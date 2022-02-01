@@ -1,0 +1,160 @@
+
+earlier
+
+<a>  --- file
+    <b p ={1}>
+    <c p ={1}>
+    <d p ={1}>
+    <e p ={1}>
+</a>
+
+useContext --- primary usecase of this hook is during a login --when a user logs in u receive a cookie/token. those cookies are generally stored in context and all children of context receive those cookies and they can make their backend call n they can pass that cookie in the authorisation header
+
+<a>
+    <context p={1}>
+        <b>   ------- will receive p={1} ///children of context
+        <c>   ------- will receive p={1}
+        <d>   ------- will receive p={1}
+        <e>   ------- will receive p={1}
+        <f>    ------ doesn't need p, it will automatically receive ---violation of solid prinicpal - bad design practice
+    </context>
+</a>
+
+//in a use case where 4 components need it and two doesn't we need to use reducer76
+states,reducer n context all 3 store data
+
+
+db -- db1
+  table1   ---- store data in format row + columns
+  table2
+
+----reading data
+select * from table1 where a = 5
+select * from table2 where b =10
+
+-----write data
+insert into table1, column1value, column2value,......
+
+reducer   -----  db inside reducer we have multiple tables
+   reducer1  --- store in form json object     ---   implement action geeks.. receive payload as input
+                                                                            json.a = input  
+                                                                            return save json
+   reducer2   ----json
+   reducer3 ---json -----all 3 of them store data
+
+if we want to get data from reducer
+we use 
+
+----reading data
+const obj = useSelector(reducer1)  useSelector will return an object
+console.log(obj.a)
+useSelector(reducer2)
+
+-----write data
+dispatch = useDispatch
+
+dispatch({actionName, payload})
+
+dispatch({geeks, payload})  geeks is the method in the reducer 1 
+
+reactslice is the newer version of reducer
+
+            ==================== Lec11 ==========================
+
+reducer is like a nosql db
+
+nosql db
+key   -------------  value
+id    -------------    {.....big  json....}
+UsersReducer  ----   IStatusizedUser json
+
+                            table is a identifier 
+in sql we do ----   insert into table column1, column2,...
+
+            method ----if we 1000 reducers we should have 1000 unique types
+insert into type payload ///type is kinda like a table and payload is a column in reducer
+
+                            object
+dispatch({type:"started", users:[]})...dispatch is a function and second argument should be where we want to insert data
+----------action-----   the argument of dispatch is called action
+dispatch({type:"completed", users: json.data})
+
+action will go to reducer frameword internally
+action send it to 1000 reducers(if we have 1000)
+reducer duty to match the action, if action matches then update the corresponding attributes
+
+type should be unique accross all reducers
+it will tell us where to insert data
+
+-----before code starts
+    reducer framework will invoke all the 1000 reducers with action {type: "incorrect"}
+    by this way usersReducer will have initial value {loading: true, users:[]}
+
+---code starts
+    ReduxBasics will get invoke
+    dispatch({type: started})  -- it will update usersReducer
+    dispatch({type: completed, users: ajaxCall})  -- it will update usersReducer
+    ReduxBasics will read from reducer
+    we will render it in UI
+
+
+
+
+    =======================================================================
+
+
+   const state1 = useState<String>()  //used to create an object
+
+   const state2 = useState<Student>() //student is an object
+
+   const [state2, setState2] = useState<Student>()   //if we want to set the state for student and we need to define all attributes
+
+   setState2({
+       name:
+       email:
+       class:   //attributes
+   })
+
+react hook forms - to set the state for one particular attribute without changing whole object
+const [state2, setName, setEmail] = hookForm<Student>() 
+
+setName(name)
+
+2.(advantage of react hook form) binding b/w html element and the react hook form
+
+<textbox onChange=setName(e.target.value)/> //earlier we used to do this 
+
+<textbox bind=name/> //with react hook form
+
+
+3(Advantage) name cannot contain number
+
+//earlier
+<textbox onChange={
+    if(e.target.value.contains(number)){
+        setError(true)
+    }else{
+        setName(e.target.value)
+        setError(false)
+    }
+} />
+
+<textbox bind=name validation={...LOGIC....} />
+1..add error message
+2..if the error is there it will disable the submit button
+
+<form onSubmit={..backend...}>
+element 1
+element 2
+
+
+reset...
+reset()  ----  automatically make all the values blank
+
+
+
+
+firebase connection strings
+
+we should not harcode in the code base
+do not commit in ouer 
