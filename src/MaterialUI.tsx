@@ -1,15 +1,10 @@
 import {
-  Button,
-  CircularProgress,
+  AppBar, Button, Card, CardContent, CardMedia, CircularProgress,
   Fab,
   makeStyles,
   TextField,
   Theme,
-  Typography,
-  Card,
-  CardMedia,
-  CardContent,
-  AppBar,
+  Typography
 } from "@material-ui/core";
 //import {SearchIcon} from "@material-ui/icons";
 import SearchIcon from "@material-ui/icons/Search";
